@@ -24,13 +24,18 @@ function parseEditor() {
   return linesClean;
 }
 // Parse a provided operand (determine if it represents a register or decimal value, and return the register content / this value)
-function parseOperand(operand) { // TODO: stricter checks and error handling
+function parseOperand(operand) {
   if (operand[0].toUpperCase() === 'R') {
-    return REGISTERS[operand.slice(1)];
-  } else if (operand[0].toUpperCase() === '#') {
-    return parseInt(operand.slice(1));
+    return REGISTERS[parseRegister(operand)];
+  } else if (operand[0] === '#') {
+    var int = parseInt(operand.slice(1));
+    if (!isNan(int)) {
+      return int;
+    } else {
+      throw "Invalid operand - value must be an integer";
+    }
   } else {
-    throw "Invalid operand";
+    throw "Invalid operand - must be register (R) or value (#)";
   }
 }
 // Parse a line, splitting it into its OPCODE and OPERAND
@@ -47,7 +52,7 @@ function parseRegister(register) {
       return registerNumber;
     }
   }
-  throw "Invalid register syntax"
+  throw "Invalid register syntax";
 }
 // Parse label line - find index of label to jump to
 function parseLabelLine(label) {
@@ -63,7 +68,7 @@ function parseMemory(memory) {
   if (!isNaN(parseInt(memory))) {
     return parseInt(memory);
   }
-  throw "Memory location is not an integer value"
+  throw "Memory location is not an integer value";
 }
 // LDR OPCODE processing
 function opLDR(args) {
