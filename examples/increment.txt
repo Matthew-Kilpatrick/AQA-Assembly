@@ -1,0 +1,10 @@
+MOV R0, #10 ; Number to count up to
+MOV R1, #1 ; Current value
+loop:
+    STR R1, 1 ; Store current value in memory locaiton 1
+    ADD R1, R1, #1 ; Increment current value
+    CMP R1, R0 ; Compare current value to target
+    BGT end ; If current value greater than target, branch to end
+    B loop ; If not greater, branch to start
+end:
+    HALT ; Terminate the program

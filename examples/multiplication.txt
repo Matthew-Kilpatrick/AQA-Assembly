@@ -1,0 +1,19 @@
+MOV R0, #5 ; One of multiplication values
+MOV R1, #6 ; Other multiplication value
+; Firstly compare which value is smaller to minimise loops required
+CMP R0, R1
+BGT swap ; Swap registers values held in to reduce loops
+loop:
+    ADD R2, R2, R1 ; Perform first addition
+    SUB R0, R0, #1 ; Decrement value of remaining additions needed
+    CMP R0, #0
+    BNE loop  
+end:
+    STR R2, 1 ; Store product in memory location 1
+    HAlT ; Terminate program    
+swap:
+    MOV R2, R0 ; Move R0 content to free register
+    MOV R0, R1 ; Move R1 content to R0
+    MOV R1, R2 ; Move R2 (previously R0) to R1
+    MOV R2, #0 ; Overwrite R2 with 0 ready for reuse
+    B loop ; branch back to loop

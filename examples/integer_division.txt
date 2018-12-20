@@ -1,0 +1,14 @@
+MOV R0, #7 ; Number to divide
+MOV R1, #2 ; Divisor
+MOV R2, #0 ; Count of number of multiples go in
+loop:
+    SUB R0, R0, R1 ; Subtract divisor from number to divide
+    ADD R2, R2, #1 ; Add 1 to number of times divisor fits into number
+    CMP R0, R1 ; Compare divisor to remaining value of number
+    BLT end ; Branch to end if divisor is greater than remaining number value
+    B loop ; Branch back to start of subtraction loop
+end:
+    STR R2, 1 ; Store result of division in memory location 1
+    STR R0, 2 ; Store the remainder in memory location 2
+    HALT ; Terminate program
+    
