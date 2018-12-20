@@ -234,7 +234,7 @@ function stepForward() {
   parseEditor();
   editor.session.removeMarker(PREV_HIGHLIGHT);
   if (INDEX >= 0 && INDEX < ASSEMBLY.length) {
-    PREV_HIGHLIGHT = editor.session.addMarker(new Range(INDEX, 0, INDEX, 1), "myMarker", "fullLine");
+    PREV_HIGHLIGHT = editor.session.addMarker(new Range(INDEX, 0, INDEX, 1), "highlightLine", "fullLine");
     var nextIndex = INDEX + 1;
     var line = parseLine(ASSEMBLY[INDEX]);
     var opcode = line[0].toUpperCase();
@@ -354,7 +354,7 @@ function reset() {
 // Decimal to binary converter - https://stackoverflow.com/questions/9939760/how-do-i-convert-an-integer-to-binary-in-javascript
 function dec2bin(dec){
   return (dec >>> 0).toString(2);
-} 
+}
 // Example load function
 function loadExample(example) {
   $.get('examples/' + example + '.txt', function(data) {

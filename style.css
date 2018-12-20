@@ -1,0 +1,22 @@
+#editorParent {
+    width:100%;
+    height: 600px;
+    display:inline-block;
+    position:relative;
+}
+#editor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.highlightLine {
+  position:absolute;
+  background:rgba(100,200,100,0.5);
+  z-index:20
+}
+body {
+  margin-left: 20px;
+  margin-right: 20px;
+}
