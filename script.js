@@ -29,7 +29,7 @@ function parseOperand(operand) {
     return REGISTERS[parseRegister(operand)];
   } else if (operand[0] === '#') {
     var int = parseInt(operand.slice(1));
-    if (!isNan(int)) {
+    if (!isNaN(int)) {
       return int;
     } else {
       throw "Invalid operand - value must be an integer";
