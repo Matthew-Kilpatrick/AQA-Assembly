@@ -375,3 +375,25 @@ $(document).ready(function() {
   Object.assign(PREV_MEMORY, MEMORY);
   Object.assign(PREV_CMP, CMP);
 });
+// Append a new location / value input field pair to modal body
+function addMemoryItemCell() {
+  $('#populateMemTable').append(
+    '<tr>\
+    <td><input class="form-control" type="number" name="memoryLoc[]"></td>\
+    <td><input class="form-control" type="number" name="memoryVal[]"></td>\
+    <td>\
+    </td>'
+  );
+}
+// Parse input fields from populate memory modal, update memory & memory table content
+function parseMemoryPopulateForm() {
+  var cellLoc = $("input[name='memoryLoc[]']").map(function(){return $(this).val();}).get();
+  var cellVal = $("input[name='memoryVal[]']").map(function(){return $(this).val();}).get();
+  var cellCount = cellLoc.length;
+  var cellArray = {};
+  for (i=0; i < cellCount; i++) {
+    cellArray[parseInt(cellLoc[i])] = parseInt(cellVal[i]);
+  }
+  Object.assign(MEMORY, data);
+  updateMemoryTable();
+}
