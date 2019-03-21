@@ -24,18 +24,13 @@ function parseEditor() {
   return linesClean;
 }
 // Parse a provided operand (determine if it represents a register or decimal value, and return the register content / this value)
-function parseOperand(operand) {
+function parseOperand(operand) { // TODO: stricter checks and error handling
   if (operand[0].toUpperCase() === 'R') {
-    return REGISTERS[parseRegister(operand)];
-  } else if (operand[0] === '#') {
-    var int = parseInt(operand.slice(1));
-    if (!isNaN(int)) {
-      return int;
-    } else {
-      throw "Invalid operand - value must be an integer";
-    }
+    return REGISTERS[operand.slice(1)];
+  } else if (operand[0].toUpperCase() === '#') {
+    return parseInt(operand.slice(1));
   } else {
-    throw "Invalid operand - must be register (R) or value (#)";
+    throw "Invalid operand";
   }
 }
 // Parse a line, splitting it into its OPCODE and OPERAND
@@ -52,7 +47,7 @@ function parseRegister(register) {
       return registerNumber;
     }
   }
-  throw "Invalid register syntax";
+  throw "Invalid register syntax"
 }
 // Parse label line - find index of label to jump to
 function parseLabelLine(label) {
@@ -68,7 +63,7 @@ function parseMemory(memory) {
   if (!isNaN(parseInt(memory))) {
     return parseInt(memory);
   }
-  throw "Memory location is not an integer value";
+  throw "Memory location is not an integer value"
 }
 // LDR OPCODE processing
 function opLDR(args) {
@@ -239,7 +234,7 @@ function stepForward() {
   parseEditor();
   editor.session.removeMarker(PREV_HIGHLIGHT);
   if (INDEX >= 0 && INDEX < ASSEMBLY.length) {
-    PREV_HIGHLIGHT = editor.session.addMarker(new Range(INDEX, 0, INDEX, 1), "highlightLine", "fullLine");
+    PREV_HIGHLIGHT = editor.session.addMarker(new Range(INDEX, 0, INDEX, 1), "myMarker", "fullLine");
     var nextIndex = INDEX + 1;
     var line = parseLine(ASSEMBLY[INDEX]);
     var opcode = line[0].toUpperCase();
@@ -359,7 +354,7 @@ function reset() {
 // Decimal to binary converter - https://stackoverflow.com/questions/9939760/how-do-i-convert-an-integer-to-binary-in-javascript
 function dec2bin(dec){
   return (dec >>> 0).toString(2);
-}
+} 
 // Example load function
 function loadExample(example) {
   $.get('examples/' + example + '.txt', function(data) {
@@ -375,3 +370,25 @@ $(document).ready(function() {
   Object.assign(PREV_MEMORY, MEMORY);
   Object.assign(PREV_CMP, CMP);
 });
+// Append a new location / value input field pair to modal body
+function addMemoryItemCell() {
+  $('#populateMemTable').append(
+    '<tr>\
+    <td><input class="form-control" type="number" name="memoryLoc[]"></td>\
+    <td><input class="form-control" type="number" name="memoryVal[]"></td>\
+    <td>\
+    </td>'
+  );
+}
+// Parse input fields from populate memory modal, update memory & memory table content
+function parseMemoryPopulateForm() {
+  var cellLoc = $("input[name='memoryLoc[]']").map(function(){return $(this).val();}).get();
+  var cellVal = $("input[name='memoryVal[]']").map(function(){return $(this).val();}).get();
+  var cellCount = cellLoc.length;
+  var cellArray = {};
+  for (i=0; i < cellCount; i++) {
+    cellArray[parseInt(cellLoc[i])] = parseInt(cellVal[i]);
+  }
+  Object.assign(MEMORY, data);
+  updateMemoryTable();
+}
