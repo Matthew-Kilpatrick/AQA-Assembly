@@ -394,6 +394,6 @@ function parseMemoryPopulateForm() {
   for (i=0; i < cellCount; i++) {
     cellArray[parseInt(cellLoc[i])] = parseInt(cellVal[i]);
   }
-  Object.assign(MEMORY, data);
+  Object.assign(MEMORY, cellArray);
   updateMemoryTable();
 }
