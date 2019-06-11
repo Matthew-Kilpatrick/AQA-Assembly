@@ -1,0 +1,28 @@
+; Pre populate memory location 1 with the value to calculate factorial of
+MOV R0, #5 ; Second argument is what factorial will be calculated for
+STR R0, 1 ; Move to memory location 1
+
+; Program starts here
+
+LDR R0, 1 ; Load content of location 1 to register 0
+MOV R4, R0 ; Copy from R0 to R4
+B factorial ; Branch to the start of the program (factorial)
+
+; R4 - result of multiply (R2*R3)
+multiply:
+    ADD R4, R4, R2 ; Increment R4 by content of R2
+    SUB R3, R3, #1 ; Decrement R3 by 1 (denary)
+    CMP R3, #1 ; Compare R3 to 1 (denary)
+    BGT multiply ; Jump back to multiply if R3 is greater than 1
+
+factorial:
+    CMP R0, #2 ; Check whether factorial has been calculated
+    BEQ stop ; Branch to stop if factorial result is complete
+    MOV R2, R4 ; If incomplete, move content of R4 to R2
+    SUB R0, R0, #1 ; Subtract one from content of R0
+    MOV R3, R0 ; Move content of R0 to R3 for multiplication
+    B multiply ; Jump to multiplication branch
+
+stop:
+    STR R4, 2 ; store result in register 2
+    HALT ; Terminate execution of program

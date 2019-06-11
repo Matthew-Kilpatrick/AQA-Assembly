@@ -1,0 +1,26 @@
+; AQA 2019 A level paper 2 exam question (8 marks)
+; find greatest common factor of 2 integers, held in memory
+; locations 102 and 103, store result in location 104
+
+; populate memory with example values
+MOV R12, #18
+STR R12, 102
+MOV R12, #7
+STR R12, 103
+MOV R12, #0
+
+; main program
+LDR R0, 102
+LDR R1, 103
+loop:
+    CMP R0, R1
+    BEQ end
+    BLT bgreater
+    SUB R0, R0, R1
+    B loop
+bgreater:
+    SUB R1, R1, R0
+    B loop
+end:
+    STR R0, 104
+    HALT
